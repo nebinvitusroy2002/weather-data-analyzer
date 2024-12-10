@@ -80,6 +80,14 @@ public class WeatherDataService {
 
     public String getAverageByDateRange(LocalDate startDate, LocalDate endDate) {
         log.info("Fetching weather data for date range: {} to {}", startDate, endDate);
+        if(startDate == null || endDate == null){
+            log.warn("Start date and end date is null");
+            return "Invalid date range provided";
+        }
+        if (startDate.isAfter(endDate)){
+            log.warn("Start date is after end date");
+            return "Start date cannot be after end date";
+        }
         try {
             List<WeatherData> dataList = repository.findByDateBetween(startDate, endDate);
             if (dataList.isEmpty()) {
